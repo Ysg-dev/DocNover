@@ -1,5 +1,5 @@
 ﻿using DocNover.Domain.Models;
-//using DocNover.Domain.Models.Authentication;
+using DocNover.Domain.Models.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -18,6 +18,7 @@ namespace DocNover.Data
 
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
 
 
     }

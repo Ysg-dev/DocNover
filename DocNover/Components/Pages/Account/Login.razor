@@ -1,0 +1,71 @@
+﻿@page "/login"
+
+@using DocNover.Data
+@using DocNover.Domain.Models.ViewModels
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@inject AppDbContext _appdbContext
+@inject NavigationManager _navigationManager
+@* @rendermode InteractiveServer  *@
+
+<div class="row">
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+        <EditForm Model="@Model" OnValidSubmit="Authenticate" FormName="LoginForm" >
+            <DataAnnotationsValidator />
+                <div class="mb-3 text-center flex-column">
+                    <img scr="/images/user.png" style="max-height:5rem" />
+                    <h3>LOGIN</h3>
+                </div>
+            <div class="mb-3">
+                <label>User Name</label>
+                <InputText @bind-Value="Model.UserName" class="form-control" placeholder="Username"/>
+                <ValidationMessage For="() => Model.UserName" />
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <InputText @bind-Value="Model.Password" class="form-control" placeholder="Password" type="password"/>
+                <ValidationMessage For="() => Model.Password" />
+            </div>
+            <div class="md-3 text-center">
+                <span class="text-danger">@errorMessege</span>
+            </div>
+            <div class="md-3 d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    public HttpContext? HttpContext { get; set; }
+
+    [SupplyParameterFromForm]
+    public LoginViewModels Model { get; set; } = new();
+
+    private string? errorMessege;
+
+   
+    private async Task Authenticate()
+    {
+        var userAccount = _appdbContext.UserAccounts.Where(x => x.UserName == Model.UserName).FirstOrDefault();
+        if(userAccount is null || userAccount.Password != Model.Password)
+        {
+            errorMessege = "Ошибка в имени или пароле";
+            return;
+        }
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, Model.UserName),
+            new Claim(ClaimTypes.Role, userAccount.Role)
+        };
+
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principlal = new ClaimsPrincipal(identity);        
+        await HttpContext.SignInAsync(principlal);
+        _navigationManager.NavigateTo("/");
+    }
+}
