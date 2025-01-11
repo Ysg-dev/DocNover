@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\DocNover.bundle.scp.css",
+      "PackagePath": "staticwebassets\\DocNover.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.DocNover.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.DocNover.props",
+      "PackagePath": "build\\DocNover.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.DocNover.props",
+      "PackagePath": "buildMultiTargeting\\DocNover.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.DocNover.props",
+      "PackagePath": "buildTransitive\\DocNover.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
