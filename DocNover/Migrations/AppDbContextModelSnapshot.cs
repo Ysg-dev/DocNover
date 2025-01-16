@@ -2,8 +2,7 @@
 using DocNover.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 
 #nullable disable
 
@@ -48,6 +47,40 @@ namespace DocNover.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserAccounts");
+                });
+
+            modelBuilder.Entity("DocNover.Domain.Models.Catalog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CatalogImagePaths")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("catalog_image_paths");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("catalog_discription");
+
+                    b.Property<int>("DocumentId")
+                        .HasColumnType("int")
+                        .HasColumnName("document_id");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("catalog_name");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int")
+                        .HasColumnName("topic_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Catalogs");
                 });
 
             modelBuilder.Entity("DocNover.Domain.Models.Document", b =>

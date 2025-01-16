@@ -1,0 +1,241 @@
+﻿@page "/Storage"
+@using DocNover.Data.Interfaces
+@using DocNover.Domain.Models
+@using DocNover.Data
+@using DocNover.Services
+@using Microsoft.AspNetCore.Authorization
+@inject AppDbContext appDbContext
+@inject IRepository _repository
+@inject DocumentService _docService
+@attribute [StreamRendering]
+@attribute [Authorize(Roles = "Administrator")]
+@rendermode InteractiveServer
+@inject NavigationManager NavManager
+
+<PageTitle>Storage</PageTitle>
+
+@* если открыта страница аудита *@
+@if (_isDocumentStorage)
+{
+    <div>
+        <a>Добавить журнал</a>
+        <img src="icons/add_catalog.png" @onclick="OpenAddCatalogPanel" style="width: 34px; height:34px; cursor: pointer;" />
+        <a>Просмотр журналов</a>
+        <img src="icons/vieving.png" @onclick="OpenCatalogsList" style="width: 34px; height:34px; cursor: pointer;" />
+    </div>
+
+    @* <div>
+        <a>Генерация 1000 журналов</a>
+        <img src="icons/addDocument.png" @onclick="MockGenerateJournal" style="width: 34px; height:34px; cursor: pointer;" />
+    </div> *@
+
+    @if (_openAddCatalogPanel)
+    {
+        <form>
+            <div class="form-group">
+                <InputText @bind-Value="_nameCatalog" class="form-control mt-2" id="inputTopicName" placeholder="Введите название" />
+                <InputTextArea @bind-Value="_description" class="form-control mt-2" id="inputDiscription" placeholder="Введите описание" style="height: 144px" />
+            </div>
+        </form>
+        <form class="mt-2">
+            <p>
+                <select @bind="_selectDocumentId" size="10">
+                    <option disabled>Веберите документ</option>
+
+                    @foreach (var doc in _documents)
+                    {
+                        <option value="@doc.Id">@doc.Name</option>
+                    }
+
+                </select>
+            </p>
+            <InputFile OnChange="HandleImagesUpload" multiple />
+            <p><input @onclick="CreateCatalog" type="submit" value="Отправить"></p>
+        </form>
+    }
+
+    @if (_openCatalogsList)
+    {
+        <div class="row">
+            @foreach (var item in appDbContext.Catalogs)
+            {
+                <div class="col-12">
+                    <ul class="border" style="margin-top:20px">
+                        <li style="background-image:none"><a @onclick="()=>SetSelected(item)">@item.Name</a></li>
+                    </ul>
+
+                    @if (item.IsSelected)
+                    {
+                        <div class="col-8">
+                            @item.Description
+                        </div>
+                        <div class="col-4">
+                            @foreach (var image in item.CatalogImagePaths)
+                            {
+                                <img src="@SetImagePath(image)" style="height: 84px; width:84px" />
+                            }
+                            <a @onclick="() => ToDocumentPage(item.DocumentId)">@SetDocument(item.DocumentId)</a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }    
+}
+@* если открыта страница документов и надо просмотреть журналы *@
+else
+{
+    <div class="row">
+
+        @foreach (var item in _catalogs.Where(x => x.TopicId == TopicId))
+        {            
+            <div class="col-12">
+                <a @onclick="()=>SetSelected(item)">@item.Name</a>
+
+                @if (item.IsSelected)
+                {
+                    <div class="col-8">
+                        @item.Description
+                    </div>
+                    <div class="col-4">
+                        @foreach (var image in item.CatalogImagePaths)
+                        {
+                            <img src="@SetImagePath(image)" style="height: 84px; width:84px" />
+                        }
+                        <a @onclick="() => ToDocumentPage(item.DocumentId)">@SetDocument(item.DocumentId)</a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public int TopicId { get; set; }
+    private Catalog? _currentCatalog;
+    private Document _document;
+    private List<Catalog> _catalogs = new();
+    private List<Document> _documents = new();
+    private List<Topic> _topics = new();
+    private List<string>? _imagePath = new();
+    private int _selectDocumentId;
+    private int _topicId;
+    private string? _nameCatalog;
+    private string? _description;
+    private bool _openAddCatalogPanel;
+    private bool _openCatalogsList;
+    private bool _openCatalog;
+    private bool _isDocumentStorage;
+    private List<int> _numbers = new List<int>();
+
+    protected override void OnInitialized()
+    {
+        _documents = _repository.GetDocuments().ToList();
+        var uri = NavManager.Uri;
+        var path = NavManager.ToBaseRelativePath(uri);
+        if (path == "storage")
+        {
+            _isDocumentStorage = true;
+        }
+        _documents = _repository.GetDocuments().ToList();
+        _catalogs = _repository.GetCatalogs().ToList();
+        _topics = _repository.GetAllTopics().ToList();
+
+        _document = _documents.First();
+        base.OnInitialized();
+    }
+
+    private void OpenAddCatalogPanel()
+    {
+        _openAddCatalogPanel = !_openAddCatalogPanel;
+    }
+    private void OpenCatalogsList()
+    {
+        _openCatalogsList = !_openCatalogsList;
+        Console.WriteLine();
+    }
+
+    private void SetSelected(Catalog catalog)
+    {
+        catalog.IsSelected = !catalog.IsSelected;
+    }
+
+    private async Task HandleImagesUpload(InputFileChangeEventArgs e)
+    {
+        for (int i = 0; i < e.GetMultipleFiles().Count; i++)
+        {
+            var format = e.GetMultipleFiles()[i].ContentType.ToLower();
+            if (format.Contains("png"))
+            {
+                var path = Path.Combine("C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/wwwroot/images/", e.GetMultipleFiles()[i].Name);
+                _imagePath.Add(path);
+                using var stream = e.GetMultipleFiles()[i].OpenReadStream();
+                using var fileStream = new FileStream(path, FileMode.Create);
+                await stream.CopyToAsync(fileStream);
+            }
+        }
+    }
+
+    private void CreateCatalog()
+    {
+        var doc = _documents.FirstOrDefault(x => x.Id == _selectDocumentId);
+
+        if (doc != null)
+        {
+            _topicId = doc.TopicId;
+        }
+
+        var newCatalog = new Catalog()
+            {
+                Name = _nameCatalog,
+                Description = _description,
+                CatalogImagePaths = new List<string> { },
+                DocumentId = _selectDocumentId,
+                TopicId = _topicId
+            };
+
+        if (_imagePath != null)
+        {
+            foreach (var item in _imagePath)
+            {
+                newCatalog.CatalogImagePaths.Add(item);
+            }
+        }
+        appDbContext.Catalogs.Add(newCatalog);
+        appDbContext.SaveChangesAsync();
+    }
+
+  
+    private string SetImagePath(string fullPath)
+    {
+        fullPath.Replace("[", "").Replace("]", "");
+        int lastIndex = fullPath.LastIndexOf("/");
+        string result = "";
+        if (lastIndex != -1)
+        {
+            result = fullPath.Substring(lastIndex + 1);
+        }
+        var path = string.Concat("images/", result);
+
+        return path;
+    } 
+
+    private string SetDocument(int documentId)
+    {
+        if (_documents == null) return "Список докукентов пуст";
+        if (_documents.FirstOrDefault(x => x.Id == documentId) == null) return $"Документ с идентификатором {documentId} не найден в общем списке документов";
+        return _documents.FirstOrDefault(x => x.Id == documentId).Name;
+    }
+
+    private void ToDocumentPage(int documentId)
+    {
+        
+        _docService.SelectedDocumentId = documentId;
+        NavManager.NavigateTo($"/documents");
+    }
+
+    private string GetDocumentPath(Document document)
+    {
+        return $"{document.Path}{document.FileExtension}";
+    }
+}

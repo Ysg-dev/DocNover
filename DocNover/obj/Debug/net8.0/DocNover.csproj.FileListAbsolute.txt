@@ -140,3 +140,6 @@ C:\Users\Rus\Desktop\DocNover\DocNover\DocNover\obj\Debug\net8.0\refint\DocNover
 C:\Users\Rus\Desktop\DocNover\DocNover\DocNover\obj\Debug\net8.0\DocNover.pdb
 C:\Users\Rus\Desktop\DocNover\DocNover\DocNover\obj\Debug\net8.0\DocNover.genruntimeconfig.cache
 C:\Users\Rus\Desktop\DocNover\DocNover\DocNover\obj\Debug\net8.0\ref\DocNover.dll
+C:\Users\Rus\Desktop\DocNover\DocNover\DocNover\obj\Debug\net8.0\scopedcss\Components\Pages\DocumentsPage.razor.rz.scp.css
+C:\Users\Rus\Desktop\DocNover\DocNover\DocNover\obj\Debug\net8.0\scopedcss\Components\Pages\Elements\Filetree.razor.rz.scp.css
+C:\Users\Rus\Desktop\DocNover\DocNover\DocNover\obj\Debug\net8.0\scopedcss\Components\Pages\StoragePage.razor.rz.scp.css

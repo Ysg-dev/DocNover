@@ -1,16 +1,44 @@
 ﻿@page "/"
+@using DocNover.Data.Interfaces
+@using DocNover.Domain.Models
+@inject IRepository _repository
+
+@attribute [StreamRendering]
 
 
-<h1>Blazor</h1>
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4 fw-bold">Добро пожаловать!</h1>
+        <p class="lead text-muted">
+            Ваше идеальное место для управления документами.
+        </p>
+    </div>
 
-<AuthorizeView>
-    <Authorized>
-        Welcome UserName
-    </Authorized>
-    <NotAuthorized>
-        <span>Если у Вас есть аккаунт, войдите в свой аккаунт. <a class="fw-bolder" href="/login">Нажмите тут</a></span>
-    </NotAuthorized>
-</AuthorizeView>
-
-
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow border-0">
+                <div class="card-body text-center">
+                    <AuthorizeView>
+                        <NotAuthorized>
+                            <p class="text-secondary">
+                                Чтобы получить доступ ко всем функциям, войдите в систему.
+                            </p>
+                            <a href="/login" class="btn btn-primary btn-lg fw-bold">
+                                Войти
+                            </a>
+                        </NotAuthorized>
+                        <Authorized>
+                            <p class="text-success">
+                                Вы вошли как <b>@context.User.Identity.Name</b>.
+                            </p>
+                            <a href="/logout" class="btn btn-danger btn-lg fw-bold">
+                                Выйти
+                            </a>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

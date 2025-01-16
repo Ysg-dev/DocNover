@@ -21,6 +21,102 @@
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\1document-icon-big.png",
+      "PackagePath": "staticwebassets\\icons\\1document-icon-big.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\4343443.png",
+      "PackagePath": "staticwebassets\\icons\\4343443.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\5.png",
+      "PackagePath": "staticwebassets\\icons\\5.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\555.png",
+      "PackagePath": "staticwebassets\\icons\\555.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\AddDocumentsBW.png",
+      "PackagePath": "staticwebassets\\icons\\AddDocumentsBW.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\AddTopic(1).png",
+      "PackagePath": "staticwebassets\\icons\\AddTopic(1).png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\AddTopic.png",
+      "PackagePath": "staticwebassets\\icons\\AddTopic.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\AddTopicsBW.png",
+      "PackagePath": "staticwebassets\\icons\\AddTopicsBW.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\Close.png",
+      "PackagePath": "staticwebassets\\icons\\Close.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\add_journal(1).png",
+      "PackagePath": "staticwebassets\\icons\\add_journal(1).png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\add_journal.png",
+      "PackagePath": "staticwebassets\\icons\\add_journal.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\document-icon-big.png",
+      "PackagePath": "staticwebassets\\icons\\document-icon-big.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\document-icon-smoll.png",
+      "PackagePath": "staticwebassets\\icons\\document-icon-smoll.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\download.png",
+      "PackagePath": "staticwebassets\\icons\\download.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\download1.png",
+      "PackagePath": "staticwebassets\\icons\\download1.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\file-mini.png",
+      "PackagePath": "staticwebassets\\icons\\file-mini.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\file.png",
+      "PackagePath": "staticwebassets\\icons\\file.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\file1.png",
+      "PackagePath": "staticwebassets\\icons\\file1.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\icons8-plus-math-64.png",
+      "PackagePath": "staticwebassets\\icons\\icons8-plus-math-64.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\load.png",
+      "PackagePath": "staticwebassets\\icons\\load.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\loadFile.png",
+      "PackagePath": "staticwebassets\\icons\\loadFile.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\open_journals.png",
+      "PackagePath": "staticwebassets\\icons\\open_journals.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\vieving.png",
+      "PackagePath": "staticwebassets\\icons\\vieving.png"
+    },
+    {
+      "Id": "C:\\Users\\Rus\\Desktop\\DocNover\\DocNover\\DocNover\\wwwroot\\icons\\уккуц.png",
+      "PackagePath": "staticwebassets\\icons\\уккуц.png"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.DocNover.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

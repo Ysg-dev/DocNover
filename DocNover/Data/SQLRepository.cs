@@ -1,7 +1,8 @@
 ﻿using System;
 using DocNover.Data.Interfaces;
 using DocNover.Domain.Models;
-//using DocNover.Domain.Models.Authentication;
+using DocNover.Domain.Models.Authentication;
+
 
 namespace DocNover.Data
 {
@@ -12,6 +13,8 @@ namespace DocNover.Data
         public List<Topic> allTopics = new List<Topic>();
         public List<Topic> topics = new List<Topic>();
         public List<Document> documents = new List<Document>();
+        public List<Catalog> catalogs = new List<Catalog>();
+        public List<UserAccount> useraccounts = new List<UserAccount>();
 
         public SQLRepository(AppDbContext context)
         {
@@ -20,6 +23,8 @@ namespace DocNover.Data
             topics = seed.Item1;
             documents = seed.Item2;
             allTopics = seed.Item3;
+            catalogs = seed.Item4;
+            useraccounts = seed.Item5;
 
 
         }
@@ -37,6 +42,16 @@ namespace DocNover.Data
         {
             return documents;
         }
+        
+        public Catalog? GetCatalogById(int id)
+        {
+            return catalogs.FirstOrDefault(x => x.Id == id);
+        }
+
+        public IEnumerable<Catalog> GetCatalogs()
+        {
+            return catalogs;
+        }
 
         public Topic? GetTopicById(int id)
         {
@@ -49,10 +64,12 @@ namespace DocNover.Data
         }
 
 
-        private (List<Topic>, List<Document>, List<Topic>) Seed()
+        private (List<Topic>, List<Document>, List<Topic>, List<Catalog>, List<UserAccount>) Seed()
         {
             var allDocuments = _context.Documents.ToList();
+            List<Catalog> catalogs = _context.Catalogs.ToList();
             var topicWithParent = _context.Topics.Where(x => x.ParentId != 0).ToList();
+            List<UserAccount> userAccounts = _context.UserAccounts.ToList();
             List<Topic> topics = new List<Topic>();
             List<Topic> allTopics = new List<Topic>();
 
@@ -75,7 +92,7 @@ namespace DocNover.Data
 
             var parentTopic = topics.Where(x => x.ParentId == 0).ToList();
 
-            return (parentTopic, allDocuments, allTopics);
+            return (parentTopic, allDocuments, allTopics, catalogs, userAccounts);
         }
     }
 }

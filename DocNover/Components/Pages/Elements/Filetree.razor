@@ -1,0 +1,251 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using System.Globalization
+@using DocNover.Data.Interfaces
+@using DocNover.Domain.Models
+@using DocNover.Data
+@using DocNover.Services
+@inject IRepository _repository
+@inject NavigationManager Navigation
+@inject IJSRuntime JsRuntime
+@inject AppDbContext appDbContext
+@rendermode InteractiveServer
+
+<ul>
+    <li>
+        <a @onclick="()=>OnCurrentNodeClicked(Topic)" style="cursor: pointer;">
+            @Topic.Name
+        </a>
+        <img src="icons/add_journal.png" @onclick="()=>IsOpenStorage.InvokeAsync(OnOpenStorage())" style="cursor: pointer; width:18px; height: 18px; position:absolute; right:7%;" />
+
+        <i class="bi bi-download me-1">
+            <img @onclick="SelectionToAddElement" src="icons/AddTopic.png" style="cursor: pointer; width:18px; height: 18px; position:absolute; right:0;" />
+        </i>
+
+        @* Панелька выбора добавления элемента *@
+        @if (_isSelect)
+        {
+            <div style="margin-bottom:20px;">
+                <a @onclick="OpenPanelFromTopics" style="cursor: pointer; position:absolute; right:0;">Добавить папку</a><br>
+                <a @onclick="OpenPanelForDocuments" style="cursor: pointer; position:absolute; right:0;">Добавить документ</a>
+            </div>
+        }
+
+        @* Добавление папки*@
+        @if (_isOpenTopics)
+        {
+            <form>
+                <div class="form-groupmb-2">
+                    <img src="icons/load.png" @onclick="AddTopic" type="submit" style="width:34px; height:34px; position:absolute; right: 0;" />
+                    <InputText @bind-Value="_topicName" class="form-control" id="inputTopicName" placeholder="Введите название" style=" width:90%; height: 5%" />
+                </div>
+            </form>
+        }
+
+        @* Добавление документа*@
+        @if (_isOpenDocuments && !_addDocument)
+        {
+            <form class="form-inline">
+                <div class="form-group">
+                    <InputFile OnChange="AddDocument" class="form-control-file" id="exampleFormControlFile1" accept=".pdf" />
+                </div>
+            </form>
+        }
+
+        @if (Topic.IsExpanded)
+        {
+            @* Рекурсия для отображения папок в папке *@
+            @foreach (var topicInside in Topic.Topics)
+            {
+                <Filetree Topic="topicInside" Document="Document" IsOpenStorage="IsOpenStorage" />
+            }
+            <ul>
+                @* Отображение документов в дереве и передача документа в страницу documents, для отображения pdf*@
+                @foreach (var document in _documents.Where(x => x.TopicId == Topic.Id))
+                {
+                    <li @onclick="()=>OnDocumentSelected(document)" style="cursor: pointer; background-image:url('icons/document-icon-big.png')">
+                        <a @onclick="() =>Document.InvokeAsync(document)">
+                            @document.Name
+                        </a>
+                        <a href="@GetDocumentPath(document)" target="_blank" download>
+                            <img src="icons/download.png" style="margin-left:14px; position:absolute; right: 0;" />
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    </li>
+</ul>
+
+
+@code {
+
+    [Parameter] public Topic? Topic { get; set; }
+    [Parameter] public EventCallback<Document> Document { get; set; }
+    [Parameter] public EventCallback<(bool, int)> IsOpenStorage { get; set; }
+    [Parameter] public string? _topicName { get; set; }
+    [Parameter] public int DocumentId { get; set; }
+
+    private List<Document> _documents = new();
+    private List<Topic> _topics = new();
+    private Document _selectedDocument = null!;
+    private string? _documentName;
+    private int _documentId;
+    private bool _documentIsSelected;
+    private bool _isExpanded;
+    private bool _isTestExpanded;
+    private bool _isSelect;
+    private bool _isOpenTopics;
+    private bool _isOpenDocuments;
+    private bool _fileLoad;
+    private bool _isDocumentFromStorage;
+    private bool _addDocument;
+    private bool _isOpenStorage;
+
+    protected override void OnInitialized()
+    {
+        //заполняю данными из бд
+        _documents = _repository.GetDocuments().ToList();
+        _topics = _repository.GetAllTopics().ToList();
+
+        if (DocumentId > 0)
+        {
+            _documentId = DocumentId;
+            var selectedDocument = _documents.FirstOrDefault(d => d.Id == _documentId);
+            if (selectedDocument != null)
+            {
+                var parentTopic = _topics.FirstOrDefault(t => t.Id == selectedDocument.TopicId);
+                if (parentTopic == null) return;
+                GetTopicFromStorage(parentTopic);
+            }
+            _isDocumentFromStorage = true;
+        }
+        base.OnInitialized();
+    }
+
+    private void OnCurrentNodeClicked(Topic topic)
+    {
+        topic.IsExpanded = !topic.IsExpanded;
+        Topic = topic;
+
+        if (topic.IsExpanded == false)
+        {
+            _isSelect = false;
+            _isOpenTopics = false;
+            _isOpenDocuments = false;
+        }
+    }
+
+    private void OnCurrentDocumentClicked(Document document)
+    {
+        _isTestExpanded = !_isTestExpanded;
+        document.IsSelected = !document.IsSelected;
+    }
+
+    private void OnDocumentSelected(Document document)
+    {
+        _selectedDocument = document;
+        document.IsSelected = true;
+        _documentIsSelected = true;
+    }
+
+    private string GetDocumentPath(Document document)
+    {
+        return $"{document.Path}{document.FileExtension}";
+    }
+
+    private void SelectionToAddElement()
+    {
+        _isSelect = !_isSelect;
+    }
+
+    private void OpenPanelFromTopics()
+    {
+        _isOpenTopics = !_isOpenTopics;
+    }
+
+    private void OpenPanelForDocuments()
+    {
+        _isOpenDocuments = !_isOpenDocuments;
+    }
+
+    private void AddTopic()
+    {
+        var topic = new Topic()
+            {
+                Name = _topicName,
+                Topics = new(),
+                Documents = new(),
+                IsExpanded = false,
+                ParentId = Topic.Id
+            };
+
+        Topic.Topics.Add(topic);
+        appDbContext.Topics.Add(topic);
+        appDbContext.SaveChangesAsync();
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+    }
+
+    private async Task AddDocument(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null) 
+        {
+            Console.WriteLine("file == null");
+            return;
+        }
+
+        _addDocument = true;
+        var documentName = file.Name.Remove(e.File.Name.LastIndexOf("."));
+        var path = Path.Combine("wwwroot", "documents", file.Name);
+        using var stream = file.OpenReadStream();
+        using var fileStream = new FileStream(path, FileMode.Create);
+        await stream.CopyToAsync(fileStream);
+
+        var document = new Document()
+            {
+                Name = documentName,
+                Path = $"/documents/{documentName}",
+                FileExtension = e.File.Name.Substring(e.File.Name.LastIndexOf(".")),
+                TopicId = Topic.Id,
+                IsSelected = false
+            };
+
+        Topic.Documents.Add(document);
+        appDbContext.Documents.Add(document);
+        await appDbContext.SaveChangesAsync();
+        _addDocument = false;
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+        
+    }
+
+    private void GetTopicFromStorage(Topic topic)
+    {
+        var doc = GetSelectedDocumet();
+        topic.IsExpanded = true;
+
+        if (topic.ParentId > 0)
+        {
+            GetTopicFromStorage(_topics.FirstOrDefault(x => x.Id == topic.ParentId));
+        }
+    }
+
+    private Document GetSelectedDocumet()
+    {
+        if (DocumentId > 0) return null;
+        return _documents.FirstOrDefault(x => x.Id == DocumentId);
+    }
+
+    private (bool, int) OnOpenStorage()
+    {
+        _isOpenStorage = !_isOpenStorage;
+        var topicId = 0;
+
+        if (Topic != null)
+        {
+            topicId = Topic.Id;
+        }
+        Console.WriteLine($"in Filetree Id: {topicId}");
+        return (_isOpenStorage, topicId);
+    }
+}

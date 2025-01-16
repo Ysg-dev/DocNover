@@ -1,0 +1,112 @@
+﻿@page "/documents"
+@using Microsoft.AspNetCore.Authorization
+@using DocNover.Services
+@using DocNover.Data.Interfaces
+@using DocNover.Domain.Models
+@inject IRepository _repository
+@inject DocumentService _docService
+@rendermode InteractiveServer
+@using DocNover.Data
+@inject AppDbContext appDbContext
+@attribute [Authorize(Roles = "Administrator, User, AdministratorDoc")]
+
+@* Выводим элемент Filetree на страничке документов *@
+@* <div class="row" style="height:100%; width:100%"> *@
+    @* <div class="col-12 col-sm-3 glassmorphism vertical-snap custom-text">
+        @foreach (var topic in _topics)
+        {
+            <Filetree Topic="topic" Document="@GetDocument" DocumentId="@_docService.SelectedDocumentId" IsOpenStorage="@OnOpenStorage" />
+        }
+    </div> *@
+    @* Отображаем либо страничку документов, либо журналы конкретного документа *@
+    @* <div class="col-12 col-sm-9">
+        @if (!_isOpenStorage)
+        {
+            @if (DocumentIsSelected)
+            {
+                <object><embed src="@GetDocumentPath(_document)" type="application/pdf" style=" width: 100%; height:100%;" /></object>
+            }
+        }
+        else
+        {
+            <CatalogPage TopicId="_topicId"></CatalogPage>
+        }
+    </div> *@
+@* </div> *@
+
+
+<div class="row" style="height:100%; width:100%">
+    <div class="col-12 col-sm-3 glassmorphism vertical-snap custom-text">
+        @foreach (var topic in _topics)
+        {
+            <Filetree Topic="topic" Document="@GetDocument" DocumentId="@_docService.SelectedDocumentId" IsOpenStorage="@OnOpenStorage" />
+        }
+    </div>
+
+    <div class="col-12 col-sm-9">
+        @if (!_isOpenStorage)
+        {
+            @if (DocumentIsSelected)
+            {
+                <iframe src="@GetDocumentPath(_document)" type="application/pdf" style="width: 100%; height: 90vh; border: none;"></iframe>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center mt-5">
+                    Документ не выбран. Пожалуйста, выберите документ из списка.
+                </div>
+            }
+        }
+        else
+        {
+            <CatalogPage TopicId="_topicId"></CatalogPage>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Parameter { get; set; }
+    public bool DocumentIsSelected { get; set; }
+
+    private List<Topic> _topics { get; set; } = new();
+    private List<Document> _documents { get; set; } = new();
+    private bool _isOpenStorage;
+    private Document? _document;
+    private int _topicId;
+
+
+    protected override void OnInitialized()
+    {
+        _topics = _repository.GetTopics().ToList();
+        _documents = _repository.GetDocuments().ToList();
+        int result = _docService.SelectedDocumentId;
+        if (result > 0)
+        {
+            DocumentIsSelected = true;
+            var selectedDocument = _documents.FirstOrDefault(d => d.Id == result);
+            _document = selectedDocument;
+        }
+        base.OnInitialized();
+    }
+
+
+    private string GetDocumentPath(Document document)
+    {
+        Console.WriteLine($"{document.Path}{document.FileExtension}");
+        return $"{document.Path}{document.FileExtension}";
+    }
+
+    private void GetDocument(Document document)
+    {
+        DocumentIsSelected = true;
+        _document = document;
+        _document.IsSelected = true;
+        Parameter = document.Id.ToString();
+    }
+
+    private void OnOpenStorage((bool, int) tuple)
+    {
+        _isOpenStorage = tuple.Item1;
+        _topicId = tuple.Item2;
+    }
+}

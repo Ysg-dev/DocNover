@@ -9,8 +9,7 @@ namespace DocNover.Data.Interfaces
         Topic? GetTopicById(int id);
         IEnumerable<Document> GetDocuments();
         Document? GetDocumentById(int id);
-        //IEnumerable<Journal> GetJournals();
-        //Journal? GetJournal(int id);
-        //Task AddUserAsync();
+        IEnumerable<Catalog> GetCatalogs();
+        Catalog? GetCatalogById(int id);        
     }
 }

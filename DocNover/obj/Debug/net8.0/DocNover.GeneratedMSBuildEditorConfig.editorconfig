@@ -34,6 +34,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBY2NvdW50XExvZ291dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Pages/Authentication.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBdXRoZW50aWNhdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,10 +48,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Routes.razor]
@@ -65,3 +65,15 @@ build_metadata.AdditionalFiles.CssScope = b-p0ugspz5q9
 [C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-js4daa0vd4
+
+[C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Pages/DocumentsPage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEb2N1bWVudHNQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-z3o3ezze6s
+
+[C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Pages/Elements/Filetree.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFbGVtZW50c1xGaWxldHJlZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-b4mg30wqjd
+
+[C:/Users/Rus/Desktop/DocNover/DocNover/DocNover/Components/Pages/StoragePage.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTdG9yYWdlUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-hht3kegkyd

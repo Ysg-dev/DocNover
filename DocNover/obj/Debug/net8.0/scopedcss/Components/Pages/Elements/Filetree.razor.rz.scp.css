@@ -1,0 +1,76 @@
+.tree[b-b4mg30wqjd] {
+    position: relative;
+    /*background: white;*/
+    margin-top: 20px;
+    padding: 6px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: .85rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+}
+
+    .tree span[b-b4mg30wqjd] {
+        font-size: 13px;
+        font-style: italic;
+        letter-spacing: .4px;
+        color: #a8a8a8;
+    }
+
+    .tree .fa-folder-open[b-b4mg30wqjd], .tree .fa-folder[b-b4mg30wqjd] {
+        color: #007bff;
+    }
+
+
+    .tree .fa-html5[b-b4mg30wqjd] {
+        color: #f21f10;
+    }
+
+    .tree ul[b-b4mg30wqjd] {
+        padding-left: 2px;
+    }
+
+        .tree ul li[b-b4mg30wqjd] {
+            position: relative;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+            .tree ul li[b-b4mg30wqjd]:before {
+                position: absolute;
+                top: 15px;
+                left: 0;
+                width: 10px;
+                height: 1px;
+                margin: auto;
+                content: '';
+                background-color: #666;
+            }
+
+            .tree ul li[b-b4mg30wqjd]:after {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 1px;
+                height: 100%;
+                content: '';
+                background-color: #666;
+            }
+
+            .tree ul li:last-child[b-b4mg30wqjd]:after {
+                height: 15px;
+            }
+
+        .tree ul a[b-b4mg30wqjd] {
+            cursor: pointer;
+        }
+
+            .tree ul a:hover[b-b4mg30wqjd] {
+                text-decoration: none;
+            }
+

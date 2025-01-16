@@ -3,6 +3,7 @@ using DocNover.Domain.Models.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace DocNover.Data
 {
     public class AppDbContext : DbContext
@@ -14,11 +15,13 @@ namespace DocNover.Data
             modelBuilder.Entity<Topic>().Ignore(c => c.IsExpanded);
             modelBuilder.Entity<Topic>().Ignore(c => c.Topics);
             modelBuilder.Entity<Document>().Ignore(c => c.IsSelected);
+            modelBuilder.Entity<Catalog>().Ignore(c => c.IsSelected);
         }
 
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<UserAccount> UserAccounts { get; set; }
+        public DbSet<Catalog> Catalogs { get; set; }
 
 
     }
